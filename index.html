@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress-Strain Curve Plotter - Aluminium Tensile Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Stress-Strain Curve Analysis</h1>
+            <p class="subtitle">Professional Tensile Test Data Visualization</p>
+            
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="chart-view">Chart View</button>
+                <button class="tab-btn" data-tab="graph-view">Graph Sheet View</button>
+                <button class="tab-btn" data-tab="exx-eyy-view">Exx-Eyy Plot</button>
+            </div>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-box">
+                <input type="file" id="csvFile" accept=".csv" />
+                <label for="csvFile" class="upload-label">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>Upload CSV File</span>
+                    <span class="file-hint">Click to browse or drag and drop</span>
+                </label>
+            </div>
+            <div class="file-info" id="fileInfo"></div>
+        </div>
+
+        <div class="controls-section" id="controlsSection" style="display: none;">
+            <div class="control-group">
+                <label for="offsetStrain">Offset Strain (%) for Yield Strength:</label>
+                <input type="number" id="offsetStrain" value="0.2" step="0.1" min="0.1" max="1.0">
+            </div>
+            <button id="plotBtn" class="btn-primary">Generate Plot</button>
+        </div>
+
+        <!-- Chart View -->
+        <div class="view-content active" id="chart-view">
+            <div class="chart-container" id="chartContainer" style="display: none;">
+                <div class="chart-wrapper">
+                    <canvas id="stressStrainChart"></canvas>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>Analysis Results</h3>
+                    <div id="resultsInfo"></div>
+                </div>
+
+                <div class="download-section">
+                    <button id="fullscreenBtn" class="btn-fullscreen">View Fullscreen</button>
+                    <button id="downloadBtn" class="btn-download">Download High-Quality Plot</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph Sheet View -->
+        <div class="view-content" id="graph-view">
+            <div class="graph-container" id="graphContainer" style="display: none;">
+                <div class="graph-controls">
+                    <div class="control-group">
+                        <label for="graphScaleX">X-axis Scale (strain units per 10mm):</label>
+                        <input type="number" id="graphScaleX" value="0.01" step="0.001" min="0.001">
+                    </div>
+                    <div class="control-group">
+                        <label for="graphScaleY">Y-axis Scale (stress MPa per 10mm):</label>
+                        <input type="number" id="graphScaleY" value="10" step="1" min="1">
+                    </div>
+                    <button id="generateGraphBtn" class="btn-primary">Generate Graph Sheet</button>
+                </div>
+                
+                <div class="graph-wrapper" id="graphWrapper">
+                    <canvas id="graphCanvas"></canvas>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>Graph Sheet Analysis</h3>
+                    <div id="graphSheetInfo"></div>
+                </div>
+                
+                <div class="graph-download-section">
+                    <button id="downloadGraphPdfBtn" class="btn-download">Download as PDF</button>
+                    <button id="downloadGraphImageBtn" class="btn-download">Download as Image</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exx-Eyy Plot View -->
+        <div class="view-content" id="exx-eyy-view">
+            <div class="exx-eyy-container" id="exxEyyContainer" style="display: none;">
+                <div class="exx-eyy-controls">
+                    <button id="generateExxEyyBtn" class="btn-primary">Generate Exx-Eyy Plot</button>
+                </div>
+                
+                <div class="chart-wrapper">
+                    <canvas id="exxEyyChart"></canvas>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>Linear Regression Info</h3>
+                    <div id="exxEyyInfo"></div>
+                </div>
+
+                <div class="download-section">
+                    <button id="downloadExxEyyBtn" class="btn-download">Download Plot</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
